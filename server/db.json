@@ -1,5 +1,31 @@
 {
   "learnhttp": {
     "content": "Hello World!"
-  }
+  },
+  "journals": [
+    {
+      "id": "6fb19f1d-131c-49f3-9ea2-d78e9720f774",
+      "content": "",
+      "createdAt": "2023-01-21 18:06:43.115187",
+      "updatedAt": "2023-01-21 18:06:43.115189"
+    },
+    {
+      "id": "9abf5b41-5515-4e84-9014-10e8e0cb5f6d",
+      "content": "Teste de inserção do app",
+      "createdAt": "2023-01-11 18:06:44.068057",
+      "updatedAt": "2023-01-21 18:07:04.317921"
+    },
+    {
+      "id": "5ea76e31-9372-49c6-99df-abd2f3786148",
+      "content": "Novo diário",
+      "createdAt": "2023-01-15 18:06:44.068057",
+      "updatedAt": "2023-01-21 18:21:29.311829"
+    },
+    {
+      "id": "39d31f3e-8b53-42d0-ac84-3706991e9a0c",
+      "content": "Sexta-feira 13",
+      "createdAt": "2023-01-13 18:22:53.768503",
+      "updatedAt": "2023-01-21 18:22:54.760383"
+    }
+  ]
 }
