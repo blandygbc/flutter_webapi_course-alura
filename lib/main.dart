@@ -4,7 +4,6 @@ import 'package:flutter_webapi_first_course/config/routes/theme/light_theme.dart
 import 'package:flutter_webapi_first_course/constants/app_constants.dart';
 import 'package:flutter_webapi_first_course/models/journal.dart';
 import 'package:flutter_webapi_first_course/screens/add_journal_screen/add_journal_screen.dart';
-import 'package:flutter_webapi_first_course/services/journal_service.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,6 +34,7 @@ class MyApp extends StatelessWidget {
             },
           );
         }
+        return null;
       },
     );
   }

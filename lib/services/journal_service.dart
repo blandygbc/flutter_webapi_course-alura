@@ -15,8 +15,8 @@ class JournalService {
   }
 
   Future<int> register(Journal journal) async {
-    String jsonJournal = json.encode(journal.toMap());
-    http.Response response = await client.post(
+    final String jsonJournal = journal.toJson();
+    final http.Response response = await client.post(
       Uri.parse(getUrl()),
       headers: apiHeaders,
       body: jsonJournal,
@@ -24,8 +24,16 @@ class JournalService {
     return response.statusCode;
   }
 
-  Future<String> get() async {
-    http.Response response = await client.get(Uri.parse(getUrl()));
-    return response.body;
+  Future<List<Journal>> getAll() async {
+    final http.Response response = await client.get(Uri.parse(getUrl()));
+    if (response.statusCode.compareTo(statusCodeOk) != 0) {
+      throw Exception();
+    }
+    List<Journal> journals = [];
+    final List<dynamic> maps = json.decode(response.body);
+    for (var map in maps) {
+      journals.add(Journal.fromMap(map));
+    }
+    return journals;
   }
 }

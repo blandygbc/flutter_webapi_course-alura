@@ -4,12 +4,6 @@
   },
   "journals": [
     {
-      "id": "6fb19f1d-131c-49f3-9ea2-d78e9720f774",
-      "content": "",
-      "createdAt": "2023-01-21 18:06:43.115187",
-      "updatedAt": "2023-01-21 18:06:43.115189"
-    },
-    {
       "id": "9abf5b41-5515-4e84-9014-10e8e0cb5f6d",
       "content": "Teste de inserção do app",
       "createdAt": "2023-01-11 18:06:44.068057",
@@ -26,6 +20,18 @@
       "content": "Sexta-feira 13",
       "createdAt": "2023-01-13 18:22:53.768503",
       "updatedAt": "2023-01-21 18:22:54.760383"
+    },
+    {
+      "id": "87aed725-410a-4fd2-aa20-679880e91de3",
+      "content": "Sabadão!",
+      "createdAt": "2023-01-14 15:35:27.297569",
+      "updatedAt": "2023-01-22 15:42:52.637928"
+    },
+    {
+      "id": "824862bd-0c40-4cff-8105-c7cc9b6f1eda",
+      "content": "Legal! Hoje eu terminei meu curso de flutter web API!",
+      "createdAt": "2023-01-22 15:58:19.897994",
+      "updatedAt": "2023-01-22 15:58:42.734040"
     }
   ]
 }
