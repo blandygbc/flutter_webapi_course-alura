@@ -1,4 +1,11 @@
 {
+  "users": [
+    {
+      "email": "foobar@email.com",
+      "password": "$2a$10$yerpQKWjdEy5Psdh1boOmOr5OuL/MAzaGUYtTN3SCcx215QDU20ba",
+      "id": 1
+    }
+  ],
   "learnhttp": {
     "content": "Hello World!"
   },
