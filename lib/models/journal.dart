@@ -20,10 +20,10 @@ class Journal {
     return "$content \ncreated_at: $createdAt\nupdated_at:$updatedAt";
   }
 
-  Journal.empty()
+  Journal.empty({DateTime? showedDate})
       : id = const Uuid().v4(),
         content = "",
-        createdAt = DateTime.now(),
+        createdAt = showedDate ?? DateTime.now(),
         updatedAt = DateTime.now();
 
   Map<String, dynamic> toMap() {

@@ -10,12 +10,6 @@
       "updatedAt": "2023-01-21 18:07:04.317921"
     },
     {
-      "id": "5ea76e31-9372-49c6-99df-abd2f3786148",
-      "content": "Novo diário",
-      "createdAt": "2023-01-15 18:06:44.068057",
-      "updatedAt": "2023-01-21 18:21:29.311829"
-    },
-    {
       "id": "39d31f3e-8b53-42d0-ac84-3706991e9a0c",
       "content": "Sexta-feira 13",
       "createdAt": "2023-01-13 18:22:53.768503",
@@ -28,10 +22,16 @@
       "updatedAt": "2023-01-22 15:42:52.637928"
     },
     {
-      "id": "824862bd-0c40-4cff-8105-c7cc9b6f1eda",
-      "content": "Legal! Hoje eu terminei meu curso de flutter web API!",
-      "createdAt": "2023-01-22 15:58:19.897994",
-      "updatedAt": "2023-01-22 15:58:42.734040"
+      "id": "f15825cf-3651-4467-b778-83fb779b0184",
+      "content": "Quarta feira legal!",
+      "createdAt": "2023-01-18 13:27:58.445673",
+      "updatedAt": "2023-01-23 14:03:00.046501"
+    },
+    {
+      "id": "a677701c-c1b3-4374-8ba0-e5f7de677bfe",
+      "content": "Que legal, finalizei o curso de flutter Web API!",
+      "createdAt": "2023-01-22 15:09:06.485704",
+      "updatedAt": "2023-01-23 15:09:12.543626"
     }
   ]
 }

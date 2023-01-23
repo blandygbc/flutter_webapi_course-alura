@@ -15,11 +15,10 @@ class JournalService {
   }
 
   Future<int> register(Journal journal) async {
-    final String jsonJournal = journal.toJson();
     final http.Response response = await client.post(
       Uri.parse(getUrl()),
       headers: apiHeaders,
-      body: jsonJournal,
+      body: journal.toJson(),
     );
     return response.statusCode;
   }
@@ -35,5 +34,20 @@ class JournalService {
       journals.add(Journal.fromMap(map));
     }
     return journals;
+  }
+
+  Future<int> edit(Journal journal) async {
+    final http.Response response = await client.put(
+      Uri.parse("${getUrl()}${journal.id}"),
+      headers: apiHeaders,
+      body: journal.toJson(),
+    );
+    return response.statusCode;
+  }
+
+  Future<int> delete(String id) async {
+    final http.Response response =
+        await http.delete(Uri.parse("${getUrl()}$id"));
+    return response.statusCode;
   }
 }

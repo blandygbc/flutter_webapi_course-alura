@@ -3,7 +3,8 @@ import 'package:flutter_webapi_first_course/constants/api_constants.dart';
 import 'package:flutter_webapi_first_course/constants/app_constants.dart';
 import 'package:flutter_webapi_first_course/helpers/weekday.dart';
 import 'package:flutter_webapi_first_course/models/journal.dart';
-import 'package:uuid/uuid.dart';
+import 'package:flutter_webapi_first_course/screens/commom/confirmation_dialog.dart';
+import 'package:flutter_webapi_first_course/services/journal_service.dart';
 
 class JournalCard extends StatelessWidget {
   final Journal? journal;
@@ -20,7 +21,12 @@ class JournalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     if (journal != null) {
       return InkWell(
-        onTap: () {},
+        onTap: () {
+          callAddJournalScreen(
+            context,
+            journal: journal,
+          );
+        },
         child: Container(
           height: 115,
           margin: const EdgeInsets.all(8),
@@ -81,6 +87,11 @@ class JournalCard extends StatelessWidget {
                   ),
                 ),
               ),
+              IconButton(
+                  onPressed: () {
+                    removeJournal(context);
+                  },
+                  icon: const Icon(Icons.delete))
             ],
           ),
         ),
@@ -103,18 +114,41 @@ class JournalCard extends StatelessWidget {
     }
   }
 
-  void callAddJournalScreen(BuildContext context) {
-    Navigator.pushNamed(context, routeAddJournalScreen,
-        arguments: Journal(
-          id: const Uuid().v4(),
-          content: "",
-          createdAt: showedDate,
-          updatedAt: DateTime.now(),
-        )).then((value) {
+  void callAddJournalScreen(BuildContext context, {Journal? journal}) {
+    Map<String, dynamic> map = {};
+    map[argumentIsEditing] = journal != null;
+    map[argumentJournal] = journal ??= Journal.empty(showedDate: showedDate);
+    Navigator.pushNamed(context, routeAddJournalScreen, arguments: map)
+        .then((value) {
       refreshFunction();
-      if (value != null && value == statusCodeCreated) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Diário salvo!")));
+      if (value != null) {
+        if (value == statusCodeCreated) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text("Diário salvo!")));
+        } else if (value == statusCodeOk) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text("Diário alterado!")));
+        }
+      }
+    });
+  }
+
+  removeJournal(BuildContext context) {
+    showConfirmationDialog(
+      context,
+      content:
+          "Deseja realmente remover o diário do dia ${WeekDay(journal!.createdAt)}?",
+      affirmativeOption: "Remover",
+    ).then((value) {
+      if (value != null && value) {
+        final JournalService service = JournalService();
+        service.delete(journal!.id).then((value) {
+          refreshFunction();
+          if (value == statusCodeOk) {
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Diário removido!")));
+          }
+        });
       }
     });
   }
