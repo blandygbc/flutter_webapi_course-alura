@@ -4,6 +4,11 @@
       "email": "foobar@email.com",
       "password": "$2a$10$yerpQKWjdEy5Psdh1boOmOr5OuL/MAzaGUYtTN3SCcx215QDU20ba",
       "id": 1
+    },
+    {
+      "email": "novo@email.com",
+      "password": "$2a$10$lZs.Ma6/Zh3015dEdWBqP.sbhIRedFHMWmLVvlZdjO7Ob3F1e0g7G",
+      "id": 2
     }
   ],
   "learnhttp": {

@@ -11,7 +11,7 @@ class JournalService {
       InterceptedClient.build(interceptors: [LoggingInterceptor()]);
 
   String getUrl() {
-    return "$apiBaseUrl$apiResource";
+    return "$apiBaseUrl$resourceJournals";
   }
 
   Future<int> register(Journal journal) async {

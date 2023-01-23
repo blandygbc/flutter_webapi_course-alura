@@ -1,4 +1,5 @@
 // Route names
+const routeLoginScreen = "login";
 const routeHomeScreen = "home";
 const routeAddJournalScreen = "add-journal";
 

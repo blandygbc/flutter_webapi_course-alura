@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: lightTheme,
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.light,
-      initialRoute: routeHomeScreen,
+      initialRoute: routeLoginScreen,
       routes: routes,
       onGenerateRoute: (settings) {
         if (settings.name == routeAddJournalScreen) {
