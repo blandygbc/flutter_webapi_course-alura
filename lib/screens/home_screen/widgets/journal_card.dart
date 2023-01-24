@@ -1,9 +1,15 @@
+import 'dart:async';
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_webapi_first_course/constants/api_constants.dart';
 import 'package:flutter_webapi_first_course/constants/app_constants.dart';
+import 'package:flutter_webapi_first_course/helpers/logout.dart';
 import 'package:flutter_webapi_first_course/helpers/weekday.dart';
 import 'package:flutter_webapi_first_course/models/journal.dart';
 import 'package:flutter_webapi_first_course/screens/commom/confirmation_dialog.dart';
+import 'package:flutter_webapi_first_course/services/auth_service.dart';
 import 'package:flutter_webapi_first_course/services/journal_service.dart';
 
 class JournalCard extends StatelessWidget {
@@ -123,19 +129,55 @@ class JournalCard extends StatelessWidget {
     map[argumentIsEditing] = journal != null;
     map[argumentJournal] =
         journal ??= Journal.empty(showedDate: showedDate, userId: userId);
-    Navigator.pushNamed(context, routeAddJournalScreen, arguments: map)
-        .then((value) {
-      refreshFunction();
-      if (value != null) {
-        if (value == statusCodeCreated) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text("Diário criado!")));
-        } else if (value == statusCodeOk) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text("Diário alterado!")));
+    Navigator.pushNamed(context, routeAddJournalScreen, arguments: map).then(
+      (value) {
+        refreshFunction();
+        if (value != null) {
+          if (value == statusCodeCreated) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(const SnackBar(content: Text("Diário criado!")));
+          } else if (value == statusCodeOk) {
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Diário alterado!")));
+          }
         }
-      }
-    });
+      },
+    ).catchError(
+      (error) {
+        showConfirmationDialog(
+          context,
+          content: "Sessão expirada, logue novamente.",
+          affirmativeOption: "Ok",
+          haveCancel: false,
+        ).then((_) {
+          logout(context);
+        });
+      },
+      test: (error) => error is JwtExpiredException,
+    ).catchError(
+      (error) {
+        log("Erro no cartão");
+        showConfirmationDialog(
+          context,
+          content: error.message,
+          affirmativeOption: "Ok",
+          haveCancel: false,
+        );
+      },
+      test: (error) => error is HttpException,
+    ).catchError(
+      (error) {
+        showConfirmationDialog(
+          context,
+          title: "Um problema ocorreu",
+          content:
+              "Não foi possível se conectar com o servidor.\n\nTente novamente mais tarde.",
+          affirmativeOption: "Ok",
+          haveCancel: false,
+        );
+      },
+      test: (error) => error is TimeoutException,
+    );
   }
 
   removeJournal(BuildContext context) {
@@ -149,11 +191,58 @@ class JournalCard extends StatelessWidget {
         final JournalService service = JournalService();
         service.delete(journal!.id, token).then((value) {
           refreshFunction();
-          if (value == statusCodeOk) {
+          if (value) {
             ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text("Diário removido!")));
           }
-        });
+        }).catchError(
+          (error) {
+            showConfirmationDialog(
+              context,
+              content: "Sessão expirada, logue novamente.",
+              affirmativeOption: "Ok",
+              haveCancel: false,
+            ).then((_) {
+              logout(context);
+            });
+          },
+          test: (error) => error is JwtExpiredException,
+        ).catchError(
+          (error) {
+            log("Erro ao remover journal");
+            showConfirmationDialog(
+              context,
+              content: error.message,
+              affirmativeOption: "Ok",
+              haveCancel: false,
+            );
+          },
+          test: (error) => error is HttpException,
+        ).catchError(
+          (error) {
+            showConfirmationDialog(
+              context,
+              title: "Um problema ocorreu",
+              content:
+                  "Não foi possível se conectar com o servidor.\n\nTente novamente mais tarde.",
+              affirmativeOption: "Ok",
+              haveCancel: false,
+            );
+          },
+          test: (error) => error is TimeoutException,
+        ).catchError(
+          (error) {
+            showConfirmationDialog(
+              context,
+              title: "Um problema ocorreu",
+              content:
+                  "Não foi possível se conectar com o servidor.\n\nTente novamente mais tarde.",
+              affirmativeOption: "Ok",
+              haveCancel: false,
+            );
+          },
+          test: (error) => error is ConnectionRefused,
+        );
       }
     });
   }

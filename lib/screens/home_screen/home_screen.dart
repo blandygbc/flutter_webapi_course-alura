@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_webapi_first_course/constants/app_constants.dart';
+import 'package:flutter_webapi_first_course/helpers/logout.dart';
 import 'package:flutter_webapi_first_course/screens/commom/confirmation_dialog.dart';
 import 'package:flutter_webapi_first_course/screens/home_screen/widgets/home_screen_list.dart';
 import 'package:flutter_webapi_first_course/services/auth_service.dart';
@@ -61,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             ListTile(
               onTap: () {
-                logout();
+                logout(context);
               },
               title: const Text('Sair'),
               leading: const Icon(Icons.logout),
@@ -90,46 +93,72 @@ class _HomeScreenState extends State<HomeScreen> {
       String? token = prefs.getString(prefsAccessToken);
       String? email = prefs.getString(prefsUserEmail);
       int? id = prefs.getInt(prefsUserId);
-      //TODO: errors not working (when put await wors)
       if (token != null && email != null && id != null) {
-        try {
+        setState(() {
+          userId = id;
+          userToken = token;
+        });
+        service
+            .getAll(id: id.toString(), token: token)
+            .then((List<Journal> journals) {
           setState(() {
-            userId = id;
-            userToken = token;
+            database = {};
+            for (Journal jornal in journals) {
+              database[jornal.id] = jornal;
+            }
           });
-          service
-              .getAll(id: id.toString(), token: token)
-              .then((List<Journal> journals) {
-            setState(() {
-              database = {};
-              for (Journal jornal in journals) {
-                database[jornal.id] = jornal;
-              }
+        }).catchError(
+          (error) {
+            showConfirmationDialog(
+              context,
+              content: "Sessão expirada, logue novamente.",
+              affirmativeOption: "Ok",
+              haveCancel: false,
+            ).then((_) {
+              logout(context);
             });
-          });
-        } on JwtExpiredException catch (e) {
-          log("$e");
-          showConfirmationDialog(
-            context,
-            content: "Sessão expirada, logue novamente.",
-            affirmativeOption: "Ok",
-            haveCancel: false,
-          ).then(
-              (_) => Navigator.pushReplacementNamed(context, routeLoginScreen));
-        } catch (e) {
-          log("Não foi possível recuperar os diários");
-          log("$e");
-        }
+          },
+          test: (error) => error is JwtExpiredException,
+        ).catchError(
+          (error) {
+            log("Não foi possível recuperar os diários");
+            showConfirmationDialog(
+              context,
+              content:
+                  "Não foi possível recuperar os diários.\n${error.message}",
+              affirmativeOption: "Ok",
+              haveCancel: false,
+            );
+          },
+          test: (error) => error is HttpException,
+        ).catchError(
+          (error) {
+            showConfirmationDialog(
+              context,
+              title: "Um problema ocorreu",
+              content:
+                  "Não foi possível se conectar com o servidor.\n\nTente novamente mais tarde.",
+              affirmativeOption: "Ok",
+              haveCancel: false,
+            );
+          },
+          test: (error) => error is TimeoutException,
+        ).catchError(
+          (error) {
+            showConfirmationDialog(
+              context,
+              title: "Um problema ocorreu",
+              content:
+                  "Não foi possível se conectar com o servidor.\n\nTente novamente mais tarde.",
+              affirmativeOption: "Ok",
+              haveCancel: false,
+            );
+          },
+          test: (error) => error is ConnectionRefused,
+        );
       } else {
         Navigator.pushReplacementNamed(context, routeLoginScreen);
       }
-    });
-  }
-
-  void logout() {
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.clear();
-      Navigator.pushReplacementNamed(context, routeLoginScreen);
     });
   }
 }

@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_webapi_first_course/constants/app_constants.dart';
 import 'package:flutter_webapi_first_course/screens/commom/confirmation_dialog.dart';
 import 'package:flutter_webapi_first_course/services/auth_service.dart';
+import 'package:flutter_webapi_first_course/services/journal_service.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -74,39 +77,73 @@ class LoginScreen extends StatelessWidget {
   Future<void> login(BuildContext context) async {
     final String email = _emailController.text;
     final String password = _passController.text;
-
-    try {
-      service.login(email: email, password: password).then((isLogedIn) {
+    service.login(email: email, password: password).then(
+      (isLogedIn) {
         if (isLogedIn) {
           Navigator.of(context).pushReplacementNamed(routeHomeScreen);
         }
-      });
-    } on UserNotFoundException {
-      log("usuário não encontrado");
+      },
+    ).catchError((error) {
       showConfirmationDialog(
         context,
-        content:
-            "Não encontramos esse usuário.\nDeseja criar um novo usuário usando o e-mail $email e a senha inserida?",
-        affirmativeOption: "Criar",
-      ).then((value) async {
-        if (value != null && value) {
-          try {
+        title: "Um problema ocorreu",
+        content: error.message,
+        affirmativeOption: "Ok",
+        haveCancel: false,
+      );
+    }, test: (error) => error is HttpException).catchError(
+      (error) {
+        log("usuário não encontrado");
+        showConfirmationDialog(
+          context,
+          content:
+              "Não encontramos esse usuário.\n\nDeseja criar um novo usuário usando o e-mail $email e a senha inserida?",
+          affirmativeOption: "Criar",
+        ).then((value) async {
+          if (value != null && value) {
             service
                 .register(email: email, password: password)
                 .then((isRegistered) {
               if (isRegistered) {
                 Navigator.of(context).pushReplacementNamed(routeHomeScreen);
               }
-            });
-          } catch (e) {
-            log("Erro de registro não esperado");
-            log('$e');
+            }).catchError((error) {
+              showConfirmationDialog(
+                context,
+                title: "Um problema ocorreu",
+                content: error.message,
+                affirmativeOption: "Ok",
+                haveCancel: false,
+              );
+            }, test: (error) => error is HttpException);
           }
-        }
-      });
-    } catch (e) {
-      log("Erro de login não esperado");
-      log('$e');
-    }
+        });
+      },
+      test: (error) => error is UserNotFoundException,
+    ).catchError(
+      (error) {
+        showConfirmationDialog(
+          context,
+          title: "Um problema ocorreu",
+          content:
+              "Não foi possível se conectar com o servidor.\n\nTente novamente mais tarde.",
+          affirmativeOption: "Ok",
+          haveCancel: false,
+        );
+      },
+      test: (error) => error is TimeoutException,
+    ).catchError(
+      (error) {
+        showConfirmationDialog(
+          context,
+          title: "Um problema ocorreu",
+          content:
+              "Não foi possível se conectar com o servidor.\n\nTente novamente mais tarde.",
+          affirmativeOption: "Ok",
+          haveCancel: false,
+        );
+      },
+      test: (error) => error is ConnectionRefused,
+    );
   }
 }

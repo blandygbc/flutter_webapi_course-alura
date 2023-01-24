@@ -23,11 +23,46 @@
       "userId": 2
     },
     {
-      "id": "e3be4699-6e3b-4683-a160-353c96d34031",
-      "content": "OK!",
-      "createdAt": "2023-01-15 00:00:44.393",
-      "updatedAt": "2023-01-24 00:00:53.142637",
+      "id": "17eba463-a914-4c66-b20c-9d6db215ea7c",
+      "content": "Dom 15",
+      "createdAt": "2023-01-15 10:52:53.084434",
+      "updatedAt": "2023-01-24 10:53:16.711555",
       "userId": 1
+    },
+    {
+      "id": "ecfc341b-ef55-4498-a181-a95bda20408d",
+      "content": "Terça 17, edit",
+      "createdAt": "2023-01-17 10:52:53.084434",
+      "updatedAt": "2023-01-24 10:53:26.612951",
+      "userId": 1
+    },
+    {
+      "id": "63d7e7ae-339f-4479-ad6f-f75d4c012a8a",
+      "content": "Quarta feira 18",
+      "createdAt": "2023-01-18 10:52:53.084434",
+      "updatedAt": "2023-01-24 11:10:02.136566",
+      "userId": 1
+    },
+    {
+      "id": "c0aa057d-fb5f-4f92-88a8-ef7a427b44d2",
+      "content": "Sexta 20",
+      "createdAt": "2023-01-20 10:52:53.084434",
+      "updatedAt": "2023-01-24 11:26:28.583406",
+      "userId": 1
+    },
+    {
+      "id": "09121fc7-8748-4128-8687-8911b6c29047",
+      "content": "Legal! Terminei a primeira parte do curso de WebAPI no flutter.",
+      "createdAt": "2023-01-22 10:52:53.084434",
+      "updatedAt": "2023-01-24 11:31:12.887311",
+      "userId": 1
+    },
+    {
+      "id": "c97bf52b-c2cb-4cbc-89d8-b917e33a4d7e",
+      "content": "Novo diário",
+      "createdAt": "2023-01-24 12:27:28.816803",
+      "updatedAt": "2023-01-24 12:27:37.144844",
+      "userId": 2
     }
   ]
 }

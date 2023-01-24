@@ -3,7 +3,7 @@ const String resourceJournals = "journals/";
 const String resourceAuthUsers = "users/";
 const String resourceAuthLogin = "login/";
 const String resourceAuthRegister = "register/";
-const Map<String, String> apiHeaders = {
+const Map<String, String> apiHeadersJsonType = {
   'Content-type': 'application/json',
 };
 
