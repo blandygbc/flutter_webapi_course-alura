@@ -10,12 +10,16 @@ class JournalCard extends StatelessWidget {
   final Journal? journal;
   final DateTime showedDate;
   final Function refreshFunction;
-  const JournalCard({
-    Key? key,
-    this.journal,
-    required this.showedDate,
-    required this.refreshFunction,
-  }) : super(key: key);
+  final int userId;
+  final String token;
+  const JournalCard(
+      {Key? key,
+      this.journal,
+      required this.showedDate,
+      required this.refreshFunction,
+      required this.userId,
+      required this.token})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -117,14 +121,15 @@ class JournalCard extends StatelessWidget {
   void callAddJournalScreen(BuildContext context, {Journal? journal}) {
     Map<String, dynamic> map = {};
     map[argumentIsEditing] = journal != null;
-    map[argumentJournal] = journal ??= Journal.empty(showedDate: showedDate);
+    map[argumentJournal] =
+        journal ??= Journal.empty(showedDate: showedDate, userId: userId);
     Navigator.pushNamed(context, routeAddJournalScreen, arguments: map)
         .then((value) {
       refreshFunction();
       if (value != null) {
         if (value == statusCodeCreated) {
           ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text("Diário salvo!")));
+              .showSnackBar(const SnackBar(content: Text("Diário criado!")));
         } else if (value == statusCodeOk) {
           ScaffoldMessenger.of(context)
               .showSnackBar(const SnackBar(content: Text("Diário alterado!")));
@@ -142,7 +147,7 @@ class JournalCard extends StatelessWidget {
     ).then((value) {
       if (value != null && value) {
         final JournalService service = JournalService();
-        service.delete(journal!.id).then((value) {
+        service.delete(journal!.id, token).then((value) {
           refreshFunction();
           if (value == statusCodeOk) {
             ScaffoldMessenger.of(context).showSnackBar(

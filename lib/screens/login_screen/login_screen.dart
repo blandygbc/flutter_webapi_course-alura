@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_webapi_first_course/constants/app_constants.dart';
 import 'package:flutter_webapi_first_course/screens/commom/confirmation_dialog.dart';
 import 'package:flutter_webapi_first_course/services/auth_service.dart';
 
@@ -75,7 +76,11 @@ class LoginScreen extends StatelessWidget {
     final String password = _passController.text;
 
     try {
-      bool result = await service.login(email: email, password: password);
+      service.login(email: email, password: password).then((isLogedIn) {
+        if (isLogedIn) {
+          Navigator.of(context).pushReplacementNamed(routeHomeScreen);
+        }
+      });
     } on UserNotFoundException {
       log("usuário não encontrado");
       showConfirmationDialog(
@@ -86,7 +91,13 @@ class LoginScreen extends StatelessWidget {
       ).then((value) async {
         if (value != null && value) {
           try {
-            await service.register(email: email, password: password);
+            service
+                .register(email: email, password: password)
+                .then((isRegistered) {
+              if (isRegistered) {
+                Navigator.of(context).pushReplacementNamed(routeHomeScreen);
+              }
+            });
           } catch (e) {
             log("Erro de registro não esperado");
             log('$e');

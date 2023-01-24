@@ -16,34 +16,18 @@
   },
   "journals": [
     {
-      "id": "9abf5b41-5515-4e84-9014-10e8e0cb5f6d",
-      "content": "Teste de inserção do app",
-      "createdAt": "2023-01-11 18:06:44.068057",
-      "updatedAt": "2023-01-21 18:07:04.317921"
+      "id": "44a577b8-657f-4b1a-80a1-95e2af57ee3a",
+      "content": "Que legal! Finalizei o Curso de Flutter com web API.",
+      "createdAt": "2023-01-22 23:38:26.167794",
+      "updatedAt": "2023-01-23 23:40:30.384890",
+      "userId": 2
     },
     {
-      "id": "39d31f3e-8b53-42d0-ac84-3706991e9a0c",
-      "content": "Sexta-feira 13",
-      "createdAt": "2023-01-13 18:22:53.768503",
-      "updatedAt": "2023-01-21 18:22:54.760383"
-    },
-    {
-      "id": "87aed725-410a-4fd2-aa20-679880e91de3",
-      "content": "Sabadão!",
-      "createdAt": "2023-01-14 15:35:27.297569",
-      "updatedAt": "2023-01-22 15:42:52.637928"
-    },
-    {
-      "id": "f15825cf-3651-4467-b778-83fb779b0184",
-      "content": "Quarta feira legal!",
-      "createdAt": "2023-01-18 13:27:58.445673",
-      "updatedAt": "2023-01-23 14:03:00.046501"
-    },
-    {
-      "id": "a677701c-c1b3-4374-8ba0-e5f7de677bfe",
-      "content": "Que legal, finalizei o curso de flutter Web API!",
-      "createdAt": "2023-01-22 15:09:06.485704",
-      "updatedAt": "2023-01-23 15:09:12.543626"
+      "id": "e3be4699-6e3b-4683-a160-353c96d34031",
+      "content": "OK!",
+      "createdAt": "2023-01-15 00:00:44.393",
+      "updatedAt": "2023-01-24 00:00:53.142637",
+      "userId": 1
     }
   ]
 }

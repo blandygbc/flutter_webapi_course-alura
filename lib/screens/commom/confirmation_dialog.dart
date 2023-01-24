@@ -5,6 +5,7 @@ Future<dynamic> showConfirmationDialog(
   String title = "Atenção!",
   String content = "Deseja realmente continuar?",
   String affirmativeOption = "Confirmar",
+  bool haveCancel = true,
 }) {
   return showDialog(
     context: context,
@@ -13,11 +14,12 @@ Future<dynamic> showConfirmationDialog(
         title: Text(title),
         content: Text(content),
         actions: [
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-              child: const Text('Cancelar')),
+          if (haveCancel)
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: const Text('Cancelar')),
           TextButton(
               onPressed: () {
                 Navigator.pop(context, true);

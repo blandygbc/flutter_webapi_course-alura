@@ -3,6 +3,7 @@ import 'dart:developer' as devtools;
 import 'dart:io';
 
 import 'package:flutter_webapi_first_course/constants/api_constants.dart';
+import 'package:flutter_webapi_first_course/constants/app_constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:flutter_webapi_first_course/services/http_interceptors.dart';
@@ -16,7 +17,7 @@ class AuthService {
     http.Response response = await client.post(
         Uri.parse("$apiBaseUrl$resourceAuthLogin"),
         body: {'email': email, 'password': password});
-    if (response.statusCode != statusCodeOk) {
+    if (response.statusCode.compareTo(statusCodeOk) != 0) {
       String content = json.decode(response.body) as String;
       switch (content) {
         case "Cannot find user":
@@ -34,7 +35,7 @@ class AuthService {
     http.Response response = await client.post(
         Uri.parse("$apiBaseUrl$resourceAuthRegister"),
         body: {'email': email, 'password': password});
-    if (response.statusCode != statusCodeCreated) {
+    if (response.statusCode.compareTo(statusCodeCreated) != 0) {
       String content = json.decode(response.body) as String;
       switch (content) {
         case "Email already exists":
@@ -56,15 +57,17 @@ class AuthService {
     int id = map['user']['id'] as int;
     //devtools.log("Token: $token\nEmail: $email\nId: $id");
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("accessToken", token);
-    prefs.setString("email", email);
-    prefs.setInt("id", id);
-    devtools.log("${prefs.getString('accessToken')}");
+    prefs.setString(prefsAccessToken, token);
+    prefs.setString(prefsUserEmail, email);
+    prefs.setInt(prefsUserId, id);
+    devtools.log("${prefs.getString(prefsAccessToken)}");
   }
 }
 
 class UserNotFoundException implements Exception {}
 
 class EmailAlreadyExistsException implements Exception {}
+
+class JwtExpiredException implements Exception {}
 
 class GenericAuthException implements Exception {}
